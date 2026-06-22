@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مانغا كايدن | قارئ الفصول</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #0F172A;
+            --bg-card: #1E293B;
+            --primary: #8B5CF6;
+        }
+        body {
+            background-color: var(--bg-main);
+            color: #F8FAFC;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        /* إخفاء شريط التمرير الافتراضي لشكل أكثر جمالاً */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <header class="bg-[#1E293B] border-b border-gray-800 sticky top-0 z-50 px-4 py-3 shadow-md">
+        <div class="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-3">
+            
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="text-gray-400 hover:text-[#8B5CF6] transition text-xl">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <div>
+                    <h1 class="font-bold text-sm md:text-base truncate max-w-[180px] sm:max-w-none">اسم المانغا الأسطورية</h1>
+                    <p class="text-xs text-gray-400">الفصل 105: البداية الجديدة</p>
+                </div>
+            </div>
+
+            <div class="flex items-center bg-[#0F172A] p-1 rounded-lg border border-gray-750">
+                <button id="view-scroll" onclick="switchMode('scroll')" class="px-3 py-1.5 rounded-md text-xs font-medium flex items-center gap-1 transition bg-[#8B5CF6] text-white">
+                    <i class="fa-solid fa-arrows-up-down"></i> تمرير حر
+                </button>
+                <button id="view-paged" onclick="switchMode('paged')" class="px-3 py-1.5 rounded-md text-xs font-medium flex items-center gap-1 transition text-gray-400 hover:text-white">
+                    <i class="fa-solid fa-bezier-curve"></i> أزرار صفحة بصفحة
+                </button>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <select class="bg-[#0F172A] border border-gray-750 text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-[#8B5CF6]">
+                    <option>الفصل 105</option>
+                    <option>الفصل 104</option>
+                    <option>الفصل 103</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow flex flex-col items-center justify-center p-4 max-w-3xl mx-auto w-full">
+        
+        <div id="scroll-container" class="w-full flex flex-col gap-2">
+            <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=600&auto=format&fit=crop&q=60" alt="صفحة 1" class="w-full h-auto rounded shadow-lg border border-gray-800">
+            <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=600&auto=format&fit=crop&q=60" alt="صفحة 2" class="w-full h-auto rounded shadow-lg border border-gray-800">
+            <img src="https://images.unsplash.com/photo-1560942485-b2a11cc13456?w=600&auto=format&fit=crop&q=60" alt="صفحة 3" class="w-full h-auto rounded shadow-lg border border-gray-800">
+        </div>
+
+        <div id="paged-container" class="w-full hidden flex-col items-center gap-4">
+            <div class="w-full relative bg-[#1E293B] rounded-xl overflow-hidden border border-gray-850 shadow-2xl flex justify-center items-center">
+                <img id="single-page" src="" alt="صفحة المانغا الحالية" class="max-h-[80vh] w-auto object-contain">
+            </div>
+            
+            <div class="flex items-center gap-6 mt-2">
+                <button onclick="prevPage()" class="bg-[#1E293B] hover:bg-[#8B5CF6] text-white px-4 py-2 rounded-lg text-sm font-bold transition disabled:opacity-30" id="btn-prev">
+                    <i class="fa-solid fa-chevron-right ml-1"></i> الصفحة السابقة
+                </button>
+                <span class="text-sm font-medium text-gray-400 bg-[#1E293B] px-3 py-1 rounded-full border border-gray-750">
+                    صفحة <span id="page-num" class="text-white font-bold">1</span> من <span id="total-pages" class="text-gray-500">3</span>
+                </span>
+                <button onclick="nextPage()" class="bg-[#1E293B] hover:bg-[#8B5CF6] text-white px-4 py-2 rounded-lg text-sm font-bold transition disabled:opacity-30" id="btn-next">
+                    الصفحة التالية <i class="fa-solid fa-chevron-left mr-1"></i>
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // مصفوفة تحتوي على روابط صور الفصل (سيتم جلبها من قاعدة البيانات مستقبلاً)
+        const mangaPages = [
+            "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=600&auto=format&fit=crop&q=60",
+            "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=600&auto=format&fit=crop&q=60",
+            "https://images.unsplash.com/photo-1560942485-b2a11cc13456?w=600&auto=format&fit=crop&q=60"
+        ];
+
+        let currentPageIndex = 0;
+
+        // دالة التبديل بين الأنماط (حر أو أزرار)
+        function switchMode(mode) {
+            const scrollContainer = document.getElementById('scroll-container');
+            const pagedContainer = document.getElementById('paged-container');
+            const btnScroll = document.getElementById('view-scroll');
+            const btnPaged = document.getElementById('view-paged');
+
+            if (mode === 'scroll') {
+                // تفعيل التمرير العمودي
+                scrollContainer.classList.remove('hidden');
+                pagedContainer.classList.add('hidden');
+                // تحديث شكل الأزرار في الأعلى
+                btnScroll.className = "px-3 py-1.5 rounded-md text-xs font-medium flex items-center gap-1 transition bg-[#8B5CF6] text-white";
+                btnPaged.className = "px-3 py-1.5 rounded-md text-xs font-medium flex items-center gap-1 transition text-gray-400 hover:text-white";
+            } else {
+                // تفعيل نظام الأزرار صفحة بصفحة
+                scrollContainer.classList.add('hidden');
+                pagedContainer.classList.remove('hidden');
+                // تحديث شكل الأزرار في الأعلى
+                btnPaged.className = "px-3 py-1.5 rounded-md text-xs font-medium flex items-center gap-1 transition bg-[#8B5CF6] text-white";
+                btnScroll.className = "px-3 py-1.5 rounded-md text-xs font-medium flex items-center gap-1 transition text-gray-400 hover:text-white";
+                // تحديث الصورة الحالية
+                updatePagedView();
+            }
+        }
+
+        // تحديث عرض الصفحة في وضع الأزرار
+        function updatePagedView() {
+            document.getElementById('single-page').src = mangaPages[currentPageIndex];
+            document.getElementById('page-num').innerText = currentPageIndex + 1;
+            document.getElementById('total-pages').innerText = mangaPages.length;
+
+            // تعطيل الأزرار إذا وصلنا للنهاية أو البداية
+            document.getElementById('btn-prev').disabled = currentPageIndex === 0;
+            document.getElementById('btn-next').disabled = currentPageIndex === mangaPages.length - 1;
+        }
+
+        // الانتقال للصفحة التالية
+        function nextPage() {
+            if (currentPageIndex < mangaPages.length - 1) {
+                currentPageIndex++;
+                updatePagedView();
+                window.scrollTo({ top: 0, behavior: 'smooth' }); // صعود لأعلى الصفحة بسلاسة
+            }
+        }
+
+        // الانتقال للتدوينة/الصفحة السابقة
+        function prevPage() {
+            if (currentPageIndex > 0) {
+                currentPageIndex--;
+                updatePagedView();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>
+
