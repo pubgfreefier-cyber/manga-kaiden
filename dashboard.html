@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مانغا كايدن | لوحة التحكم للمبدعين</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #0F172A;
+            --bg-card: #1E293B;
+            --primary: #8B5CF6;
+        }
+        body {
+            background-color: var(--bg-main);
+            color: #F8FAFC;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col md:flex-row">
+
+    <aside class="w-full md:w-64 bg-[#1E293B] border-l border-gray-800 p-6 flex flex-col justify-between">
+        <div>
+            <div class="text-2xl font-bold text-[#8B5CF6] tracking-wider mb-8 text-center md:text-right">
+                <i class="fa-solid fa-book-open"></i> مانغا كايدن
+            </div>
+            
+            <div class="mb-6 p-2 bg-[#0F172A] rounded-xl border border-gray-800">
+                <p class="text-[10px] text-gray-400 mb-2 text-center font-bold">تغيير عرض الصلاحية (للمعاينة)</p>
+                <div class="flex gap-1">
+                    <button onclick="switchRole('admin')" id="role-admin-btn" class="w-full py-1 text-xs font-bold rounded bg-[#8B5CF6] text-white transition">المسؤول</button>
+                    <button onclick="switchRole('leader')" id="role-leader-btn" class="w-full py-1 text-xs font-bold rounded text-gray-400 hover:text-white transition">قائد الفريق</button>
+                </div>
+            </div>
+
+            <nav class="space-y-2">
+                <a href="#" class="flex items-center gap-3 bg-[#8B5CF6]/10 text-[#8B5CF6] px-4 py-3 rounded-xl text-sm font-medium">
+                    <i class="fa-solid fa-chart-pie w-5"></i> الإحصائيات العامة
+                </a>
+                <a href="index.html" class="flex items-center gap-3 text-gray-400 hover:text-white px-4 py-3 rounded-xl text-sm font-medium transition">
+                    <i class="fa-solid fa-house w-5"></i> تصفح الموقع
+                </a>
+            </nav>
+        </div>
+
+        <div class="mt-8 border-t border-gray-800 pt-4 text-xs text-gray-500 text-center md:text-right">
+            المستخدم الحالي: <span class="text-white font-bold" id="user-display">المسؤول العام</span>
+        </div>
+    </aside>
+
+    <main class="flex-grow p-6 md:p-10 max-w-6xl w-full mx-auto">
+        
+        <header class="flex justify-between items-center mb-8 pb-4 border-b border-gray-800">
+            <div>
+                <h1 class="text-2xl font-bold" id="panel-title">لوحة تحكم الإدارة العليا</h1>
+                <p class="text-sm text-gray-400" id="panel-desc">أهلاً بك بكبير المسؤولين. هنا يمكنك تفعيل ومراقبة مجتمعات المانغا.</p>
+            </div>
+        </header>
+
+        <section id="admin-panel" class="space-y-8">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="bg-[#1E293B] p-5 rounded-2xl border border-gray-800 flex items-center justify-between">
+                    <div><p class="text-xs text-gray-400 font-medium">إجمالي الفرق النشطة</p><h3 class="text-2xl font-bold mt-1 text-white">12 فريق</h3></div>
+                    <div class="text-2xl text-[#8B5CF6] bg-[#8B5CF6]/10 p-3 rounded-xl"><i class="fa-solid fa-shield-halved"></i></div>
+                </div>
+                <div class="bg-[#1E293B] p-5 rounded-2xl border border-gray-800 flex items-center justify-between">
+                    <div><p class="text-xs text-gray-400 font-medium">طلبات التأسيس المعلقة</p><h3 class="text-2xl font-bold mt-1 text-amber-500">1 طلب</h3></div>
+                    <div class="text-2xl text-amber-500 bg-amber-500/10 p-3 rounded-xl"><i class="fa-solid fa-hourglass-half"></i></div>
+                </div>
+            </div>
+
+            <div class="bg-[#1E293B] rounded-2xl border border-gray-800 overflow-hidden shadow-lg">
+                <div class="p-5 border-b border-gray-800 bg-[#243046]">
+                    <h2 class="font-bold text-sm text-amber-400"><i class="fa-solid fa-envelope-open-text ml-1"></i> طلبات تأسيس الفرق الواردة إليك</h2>
+                </div>
+                <div class="p-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-[#0F172A] p-4 rounded-xl border border-gray-800" id="admin-request-card">
+                        <div>
+                            <h4 class="font-bold text-base text-[#8B5CF6]">فريق الصقور السوداء (Black Hawks)</h4>
+                            <p class="text-xs text-gray-400 mt-1"><strong>مؤسس الفريق:</strong> يوسف البرمجي</p>
+                            <p class="text-xs text-gray-300 mt-2 leading-relaxed bg-[#1E293B] p-2 rounded border border-gray-750">"نريد تأسيس فريق لترجمة مانغات الأكشن والغموض الحصرية والغير مترجمة للعربية بإنتاج عالي الجودة."</p>
+                        </div>
+                        <div class="flex gap-2 w-full sm:w-auto">
+                            <button onclick="approveTeam()" class="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-xs font-bold transition">موافق</button>
+                            <button onclick="rejectTeam()" class="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-xs font-bold transition">رفض</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="leader-panel" class="space-y-8 hidden">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="bg-[#1E293B] p-5 rounded-2xl border border-gray-800 flex items-center justify-between">
+                    <div><p class="text-xs text-gray-400 font-medium">أعضاء فريقك</p><h3 class="text-2xl font-bold mt-1 text-white">4 مبدعين</h3></div>
+                    <div class="text-2xl text-[#8B5CF6] bg-[#8B5CF6]/10 p-3 rounded-xl"><i class="fa-solid fa-users"></i></div>
+                </div>
+                <div class="flex gap-2 items-center justify-end w-full">
+                    <button class="bg-[#8B5CF6] hover:bg-[#7C3AED] text-white px-4 py-3 rounded-xl text-xs font-bold transition shadow-md"><i class="fa-solid fa-plus-circle ml-1"></i> نشر مانغا/فصل جديد</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-[#1E293B] rounded-2xl border border-gray-800 overflow-hidden">
+                    <div class="p-4 border-b border-gray-800 bg-[#243046] font-bold text-sm"><i class="fa-solid fa-user-shield ml-1 text-green-400"></i> أعضاء الفريق الحاليين</div>
+                    <div class="p-4 space-y-3">
+                        <div class="flex justify-between items-center bg-[#0F172A] p-3 rounded-xl border border-gray-800">
+                            <div><span class="text-sm font-bold block">أحمد_مبيض</span><span class="text-[10px] text-gray-500">الرتبة: تبييض وتصميم</span></div>
+                            <button onclick="alert('تم طرد العضو من الفريق.')" class="text-xs text-red-400 hover:text-red-600 font-bold transition"><i class="fa-solid fa-user-minus"></i> طرد</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-[#1E293B] rounded-2xl border border-gray-800 overflow-hidden">
+                    <div class="p-4 border-b border-gray-800 bg-[#243046] font-bold text-sm text-amber-400"><i class="fa-solid fa-user-plus ml-1"></i> طلبات انضمام للفريق تنتظر موافقتك</div>
+                    <div class="p-4 space-y-3" id="leader-requests">
+                        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3 bg-[#0F172A] p-3 rounded-xl border border-gray-800">
+                            <div><span class="text-sm font-bold block">خالد_مترجم</span><span class="text-[10px] text-gray-400">الرسالة: "مرحباً، أنا مترجم من اليابانية للعربية وأريد الانضمام لكم."</span></div>
+                            <div class="flex gap-2">
+                                <button onclick="this.parentElement.parentElement.remove(); alert('تم قبول المترجم بنجاح وإضافته للفريق!')" class="bg-green-600 text-white px-2.5 py-1 rounded text-xs font-bold hover:bg-green-700 transition">قبول</button>
+                                <button onclick="this.parentElement.parentElement.remove();" class="bg-transparent border border-gray-700 text-gray-400 px-2.5 py-1 rounded text-xs font-bold hover:text-white transition">رفض</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // دالة للتبديل الافتراضي بين الأدوار للمعاينة
+        function switchRole(role) {
+            const adminPanel = document.getElementById('admin-panel');
+            const leaderPanel = document.getElementById('leader-panel');
+            const adminBtn = document.getElementById('role-admin-btn');
+            const leaderBtn = document.getElementById('role-leader-btn');
+            const title = document.getElementById('panel-title');
+            const desc = document.getElementById('panel-desc');
+            const userDisplay = document.getElementById('user-display');
+
+            if (role === 'admin') {
+                adminPanel.classList.remove('hidden');
+                leaderPanel.classList.add('hidden');
+                adminBtn.className = "w-full py-1 text-xs font-bold rounded bg-[#8B5CF6] text-white transition";
+                leaderBtn.className = "w-full py-1 text-xs font-bold rounded text-gray-400 hover:text-white transition";
+                title.innerText = "لوحة تحكم الإدارة العليا";
+                desc.innerText = "أهلاً بك بكبير المسؤولين. هنا يمكنك تفعيل ومراقبة مجتمعات المانغا.";
+                userDisplay.innerText = "المسؤول العام";
+            } else {
+                leaderPanel.classList.remove('hidden');
+                adminPanel.classList.add('hidden');
+                leaderBtn.className = "w-full py-1 text-xs font-bold rounded bg-[#8B5CF6] text-white transition";
+                adminBtn.className = "w-full py-1 text-xs font-bold rounded text-gray-400 hover:text-white transition";
+                title.innerText = "لوحة إدارة الفريق";
+                desc.innerText = "أهلاً بقائد فريق الصقور. من هنا يمكنك إدارة المترجمين ونشر فصول المانغا بحرية.";
+                userDisplay.innerText = "قائد فريق الصقور";
+            }
+        }
+
+        // تفاعلات المسؤول
+        function approveTeam() {
+            alert("رائع! لقد وافقت على إنشاء الفريق. الآن سيتم تفعيل لوحة تحكم خاصة بقائده تلقائياً ويمكنهم النشر.");
+            document.getElementById('admin-request-card').remove();
+        }
+        function rejectTeam() {
+            alert("تم رفض الطلب وحذفه.");
+            document.getElementById('admin-request-card').remove();
+        }
+    </script>
+</body>
+</html>
