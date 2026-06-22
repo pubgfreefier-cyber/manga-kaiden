@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مانغا كايدن | الانضمام والفرق</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #0F172A;
+            --bg-card: #1E293B;
+            --primary: #8B5CF6;
+        }
+        body {
+            background-color: var(--bg-main);
+            color: #F8FAFC;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <nav class="bg-[#1E293B] border-b border-gray-800 p-4 shadow-md">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-[#8B5CF6] tracking-wider">
+                <i class="fa-solid fa-book-open"></i> مانغا كايدن
+            </a>
+            <a href="index.html" class="text-sm text-gray-400 hover:text-[#8B5CF6] transition">
+                <i class="fa-solid fa-arrow-left ml-1"></i> العودة للرئيسية
+            </a>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4 py-10 w-full flex-grow grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+        
+        <div class="bg-[#1E293B] p-6 sm:p-8 rounded-2xl border border-gray-850 shadow-xl">
+            <div class="flex items-center gap-3 mb-6 border-b border-gray-700 pb-4">
+                <div class="bg-[#8B5CF6]/10 text-[#8B5CF6] p-3 rounded-xl text-xl">
+                    <i class="fa-solid fa-user-plus"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold">إنشاء حساب جديد</h2>
+                    <p class="text-xs text-gray-400">انضم إلينا كقارئ أو صانع محتوى</p>
+                </div>
+            </div>
+
+            <form onsubmit="event.preventDefault(); alert('تم محاكاة إنشاء الحساب بنجاح!');" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-2">اسم المستخدم (بالكامل أو مستعار)</label>
+                    <input type="text" required placeholder="مثال: OtakuKaiden" class="w-full bg-[#0F172A] border border-gray-750 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#8B5CF6] transition text-white">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-2">البريد الإلكتروني</label>
+                    <input type="email" required placeholder="yourname@example.com" class="w-full bg-[#0F172A] border border-gray-750 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#8B5CF6] transition text-white">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-2">كلمة المرور</label>
+                    <input type="password" required placeholder="••••••••" class="w-full bg-[#0F172A] border border-gray-750 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#8B5CF6] transition text-white">
+                </div>
+                
+                <button type="submit" class="w-full bg-[#8B5CF6] hover:bg-[#7C3AED] text-white py-3 rounded-xl font-bold transition shadow-md mt-2">
+                    <i class="fa-solid fa-check-circle ml-1"></i> تسجيل الحساب
+                </button>
+            </form>
+        </div>
+
+        <div class="bg-[#1E293B] p-6 sm:p-8 rounded-2xl border border-gray-850 shadow-xl relative overflow-hidden">
+            <span class="absolute top-0 left-0 bg-amber-600 text-white text-[10px] font-bold px-3 py-1 rounded-br-xl uppercase tracking-wider">
+                يتطلب موافقة الإدارة
+            </span>
+
+            <div class="flex items-center gap-3 mb-6 border-b border-gray-700 pb-4 mt-2">
+                <div class="bg-amber-500/10 text-amber-500 p-3 rounded-xl text-xl">
+                    <i class="fa-solid fa-people-group"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold">تأسيس فريق ترجمة/تأليف</h2>
+                    <p class="text-xs text-gray-400">أنشئ نقابتك الخاصة واجمع المبدعين حولك</p>
+                </div>
+            </div>
+
+            <form id="teamForm" onsubmit="handleTeamSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-2">اسم الفريق المقترح</label>
+                    <input type="text" id="teamName" required placeholder="مثال: فريق قبعات القش للترجمة" class="w-full bg-[#0F172A] border border-gray-750 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#8B5CF6] transition text-white">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-2">رابط صورة الشعار (Logo)</label>
+                    <input type="url" id="teamLogo" placeholder="https://example.com/logo.png" class="w-full bg-[#0F172A] border border-gray-750 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#8B5CF6] transition text-white">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-2">نبذة عن الفريق والأعمال المنوي نشرها</label>
+                    <textarea id="teamDesc" rows="3" required placeholder="اكتب هنا تخصصكم (تبييض، ترجمة، تحرير) أو المانغات التي تخططون لرفعها..." class="w-full bg-[#0F172A] border border-gray-750 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#8B5CF6] transition text-white resize-none"></textarea>
+                </div>
+
+                <div class="p-3 bg-[#0F172A] rounded-xl border border-gray-800 text-xs text-gray-400 leading-relaxed">
+                    <i class="fa-solid fa-circle-info text-[#8B5CF6] ml-1"></i> 
+                    بصفتك <strong>مؤسس الفريق</strong>، ستملك الصلاحية الكاملة لقبول أو طرد الأعضاء بعد موافقة الإدارة العامة لـ (مانغا كايدن) على طلبك.
+                </div>
+
+                <button type="submit" class="w-full bg-transparent border-2 border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-white py-3 rounded-xl font-bold transition shadow-md">
+                    <i class="fa-solid fa-paper-plane ml-1"></i> إرسال طلب التأسيس للمسؤول
+                </button>
+            </form>
+        </div>
+
+    </main>
+
+    <footer class="bg-[#0F172A] border-t border-gray-850 py-4 text-center text-xs text-gray-500">
+        &copy; 2026 مانغا كايدن. جميع الحقوق محفوظة لفرق الترجمة والمؤلفين.
+    </footer>
+
+    <script>
+        function handleTeamSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('teamName').value;
+            alert(`تم إرسال طلب تأسيس فريق "${name}" بنجاح!\nالطلب الآن في قائمة الانتظار بانتظار موافقة مؤسس الموقع (أنت).`);
+            document.getElementById('teamForm').reset();
+        }
+    </script>
+</body>
+</html>
